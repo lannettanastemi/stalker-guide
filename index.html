@@ -1159,7 +1159,7 @@ body::before{
 
     geigerSound.currentTime = 0;
     geigerSound.volume = 0.55;
-    geigerSound.play().catch(()=>{});
+    geigerSound.play().catch(err=>console.error('Ошибка воспроизведения audio/geiger.mp3:', err));
 
 
     let i = 0;
