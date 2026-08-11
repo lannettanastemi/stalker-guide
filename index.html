@@ -37,7 +37,7 @@
     --body:'Rubik',sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden;}
   html.locked, html.locked body{overflow:hidden;height:100%;}
   body{
     background:var(--bg);
@@ -119,6 +119,16 @@
     content:"";position:absolute;inset:0;z-index:-1;
     background:rgba(6,5,3,0.86);
   }
+  #gate::after{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode:overlay;
+    animation:gate-interlace .15s steps(1) infinite;
+  }
+  @keyframes gate-interlace{
+    0%,100%{opacity:0.55;}
+    50%{opacity:1;}
+  }
   html:not(.locked) #gate{
     animation:gateOut .7s ease forwards;
     pointer-events:none;
@@ -129,13 +139,23 @@
   }
 
   .gate-panel{
-    position:relative;width:100%;max-width:440px;
+    position:relative;z-index:1;width:100%;max-width:440px;
     background:linear-gradient(180deg,var(--panel-2),var(--panel));
     border:1px solid var(--hairline);
     padding:38px 30px 32px;
     text-align:center;
     box-shadow:0 30px 80px rgba(0,0,0,0.55);
     --fc:var(--rust);
+    animation:panelPowerOn .9s cubic-bezier(.2,1,.3,1) both;
+  }
+  @keyframes panelPowerOn{
+    0%{opacity:0;transform:scaleY(0.02) scaleX(1.3);filter:brightness(3) saturate(0);}
+    12%{opacity:1;transform:scaleY(1) scaleX(1);filter:brightness(2.4) saturate(0.5);}
+    22%{transform:scaleY(0.92);filter:brightness(0.6);}
+    32%{transform:scaleY(1.02);}
+    45%{transform:scaleY(0.98);filter:brightness(1.4);}
+    60%{transform:scaleY(1);filter:brightness(1);}
+    100%{transform:scaleY(1);filter:brightness(1);}
   }
 
     .gate-panel::after {
@@ -166,6 +186,23 @@
   .gate-kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--toxic);box-shadow:0 0 8px var(--toxic);animation:blink 1.6s infinite;}
   @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
 
+  .gate-dust{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1;}
+  .gate-dust span{
+    position:absolute;bottom:-6px;width:2px;height:2px;border-radius:50%;
+    background:var(--toxic);box-shadow:0 0 5px 1px var(--toxic);
+    opacity:0;animation:dust-float linear infinite;
+  }
+  .gate-dust span:nth-child(1){left:12%;animation-duration:6s;animation-delay:0s;}
+  .gate-dust span:nth-child(2){left:32%;animation-duration:8s;animation-delay:1.4s;background:var(--rust);box-shadow:0 0 5px 1px var(--rust);}
+  .gate-dust span:nth-child(3){left:54%;animation-duration:7s;animation-delay:2.8s;}
+  .gate-dust span:nth-child(4){left:71%;animation-duration:9s;animation-delay:.6s;background:var(--rust);box-shadow:0 0 5px 1px var(--rust);}
+  .gate-dust span:nth-child(5){left:88%;animation-duration:6.5s;animation-delay:3.6s;}
+  @keyframes dust-float{
+    0%{transform:translateY(0);opacity:0;}
+    10%{opacity:.8;}
+    90%{opacity:.5;}
+    100%{transform:translateY(-260px);opacity:0;}
+  }
   .rad-wrap{position:relative;width:132px;height:132px;margin:0 auto 22px;}
 
     .rad-wrap::before {
@@ -208,26 +245,49 @@
 }
   @keyframes radpulse{0%,100%{filter:drop-shadow(0 0 10px rgba(255,106,31,0.4));}50%{filter:drop-shadow(0 0 26px rgba(255,106,31,0.85));}}
 
-  .gate-panel h2{font-size:22px;color:var(--ink);margin-bottom:10px;letter-spacing:1px;}
+  .gate-panel h2{font-size:22px;color:var(--ink);margin-bottom:10px;letter-spacing:1px;position:relative;animation:titleGlitch 6s ease-in-out infinite;}
+  @keyframes titleGlitch{
+    0%,91%,100%{text-shadow:none;transform:translate(0,0);}
+    92%{text-shadow:2px 0 var(--rust),-2px 0 var(--toxic);transform:translate(1px,0);}
+    93%{text-shadow:-3px 0 var(--rust),3px 0 var(--toxic);transform:translate(-2px,0) skewX(1deg);}
+    94%{text-shadow:1px 0 var(--rust),-1px 0 var(--toxic);transform:translate(0,0);}
+    95%{text-shadow:none;}
+  }
   .gate-panel p{font-size:13.5px;color:var(--ink-dim);line-height:1.6;max-width:340px;margin:0 auto;}
 
   .init-btn{
-    margin-top:26px;width:100%;
+    margin-top:26px;width:100%;position:relative;overflow:hidden;
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     padding:16px 20px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
     background:var(--rust);color:#140a02;border:none;cursor:pointer;
     clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);
     transition:all .15s;
+    animation:btnCharge 2.4s ease-in-out infinite;
   }
+  @keyframes btnCharge{
+    0%,100%{box-shadow:0 0 0 rgba(255,106,31,0);}
+    50%{box-shadow:0 0 22px rgba(255,106,31,0.4);}
+  }
+  .init-btn::before{
+    content:"";position:absolute;top:0;left:-60%;width:35%;height:100%;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform:skewX(-20deg);
+    transition:left .5s ease;
+  }
+  .init-btn:hover::before{left:130%;}
   .init-btn:hover{background:#ff8843;box-shadow:0 0 34px rgba(255,106,31,0.45);}
   .init-btn:active{transform:translateY(1px);}
-  .init-btn svg{width:15px;height:15px;}
+  .init-btn svg{width:15px;height:15px;position:relative;z-index:1;}
 
   .boot{display:none;margin-top:24px;text-align:left;}
   .boot.show{display:block;}
   .boot-log{
     font-family:var(--mono);font-size:11.5px;line-height:1.9;color:var(--toxic-dim);
     min-height:120px;
+  }
+  .boot.show .boot-log::after{
+    content:"_";display:inline-block;color:var(--toxic);
+    animation:blink .9s steps(1) infinite;
   }
   .boot-log .line{opacity:0;transform:translateY(3px);white-space:pre-wrap;}
   .boot-log .line.on{animation:lineIn .25s ease forwards;}
@@ -322,7 +382,9 @@
     .hero h1{font-size:36px;}
     .eyebrow,.cta-row,.meta-row{justify-content:center;}
     .hero p.lead{margin-left:auto;margin-right:auto;}
-    .hero-art{height:360px;order:-1;}
+    .hero-art{height:420px;order:-1;justify-content:center;transform:none;}
+    .hero-art .frame-box{width:min(100%,360px);height:100%;}
+    .hero-art .tagline{font-size:9px;letter-spacing:1px;padding:8px 10px;}
     .badges{flex-direction:column;align-items:center;justify-content:flex-start;gap:20px;padding:20px 24px 0;}
     .hero-inner{padding:36px 24px 40px;}
   }
@@ -439,6 +501,12 @@
   footer .flinks a:hover{color:var(--rust);}
   .fine{margin-top:36px;padding-top:22px;border-top:1px solid var(--hairline);font-size:11.5px;color:#5f594a;line-height:1.6;}
   @media (max-width:700px){.foot-grid{grid-template-columns:1fr;}}
+  @media (max-width:400px){
+    .hero-art{height:360px;}
+    .hero-art .frame-box{width:min(100%,300px);}
+    .hero h1{font-size:30px;}
+    .hero-inner{padding:28px 16px 32px;}
+  }
 
   @keyframes glitch {
   0%, 90% { transform: translate(0); }
@@ -615,6 +683,7 @@ body::before{
 <!-- ============ GATE ============ -->
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
   <div class="gate-panel frame"><i></i>
+    <div class="gate-dust" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
     <div class="gate-kicker"><span class="dot"></span> ZONE.OS &middot; ТЕРМИНАЛ ДОСЬЕ</div>
 
     <div class="rad-wrap">
