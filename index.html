@@ -12,7 +12,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Дело №0063: Какое прохождение S.T.A.L.K.E.R. правильное">
-<meta name="twitter:description" content="7 концовок, 2 из них — правда. Фанатское досье в стиле терминала Зоны.">
+<meta name="twitter:description" content="7 концовок, 2 из них — правда. Досье в стиле терминала Зоны.">
 <meta name="twitter:image" content="image/hero-stalker.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='47' fill='%230b0a07' stroke='%23ff6a1f' stroke-width='4'/%3E%3Ccircle cx='50' cy='50' r='9' fill='%23ff6a1f'/%3E%3Cg fill='%23ff6a1f'%3E%3Cpath d='M50 50 L50 12 A38 38 0 0 1 82.9 31 Z'/%3E%3Cpath d='M50 50 L82.9 69 A38 38 0 0 1 17.1 69 Z'/%3E%3Cpath d='M50 50 L17.1 31 A38 38 0 0 1 50 12 Z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,6 +52,14 @@
   .mono{font-family:var(--mono);}
   ::selection{background:var(--rust);color:#140a02;}
 
+  /* ---------- курсор Зоны ---------- */
+  html, body{
+    cursor:url('image/cursor-default.cur'), auto;
+  }
+  a, button, .init-btn, .btn, .nav-links a, .accordion-head, .badge-item, summary,
+  input, textarea, select, label, [role="button"], [onclick]{
+    cursor:url('image/cursor-pointer.cur'), pointer;
+  }
   /* focus visibility */
   a:focus-visible,button:focus-visible{outline:2px solid var(--toxic);outline-offset:3px;}
 
@@ -161,8 +169,8 @@
     .gate-panel::after {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
+    top: 0; left: 0; right: 0; bottom: auto;
+    width: 100%; height: 2px; border: none;
     background: var(--toxic);
     box-shadow: 0 0 15px var(--toxic);
     opacity: 0.3;
@@ -210,8 +218,18 @@
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, transparent 0%, rgba(168, 232, 60, 0.1) 50%, transparent 100%);
-    animation: spin 3s linear infinite;
+    background: conic-gradient(from 0deg, transparent 0%, rgba(168, 232, 60, 0.45) 6%, transparent 18%);
+    animation: spin 2.4s linear infinite;
+    z-index: 1;
+  }
+    .rad-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+      linear-gradient(to right, transparent 49%, rgba(168,232,60,0.18) 50%, transparent 51%),
+      linear-gradient(to bottom, transparent 49%, rgba(168,232,60,0.18) 50%, transparent 51%);
     z-index: 1;
   }
 
@@ -228,8 +246,8 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
-  .rad-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(255,106,31,0.4);animation:spin 14s linear infinite;}
-  .rad-ring.r2{inset:14px;border-color:rgba(168,232,60,0.28);animation-duration:9s;animation-direction:reverse;}
+  .rad-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(255,106,31,0.55);box-shadow:0 0 10px rgba(255,106,31,0.2);animation:spin 14s linear infinite;}
+  .rad-ring.r2{inset:14px;border-color:rgba(168,232,60,0.4);box-shadow:0 0 10px rgba(168,232,60,0.18);animation-duration:9s;animation-direction:reverse;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .rad-icon{position:absolute;inset:28px;filter:drop-shadow(0 0 16px rgba(255,106,31,0.55));}
   .rad-icon svg{width:100%;height:100%;}
@@ -259,7 +277,7 @@
     margin-top:26px;width:100%;position:relative;overflow:hidden;
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     padding:16px 20px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-    background:var(--rust);color:#140a02;border:none;cursor:pointer;
+    background:var(--rust);color:#140a02;border:none;cursor:url('image/cursor-pointer.cur'), pointer;
     clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);
     transition:all .15s;
     animation:btnCharge 2.4s ease-in-out infinite;
@@ -467,6 +485,16 @@
   .verdict-col li::before{content:"—";position:absolute;left:0;color:var(--rust);}
   .verdict-col.pro li::before{color:var(--toxic);}
   @media (max-width:900px){.verdict-grid{grid-template-columns:1fr;}.verdict-panel{padding:34px 22px;}.stamp{position:static;display:inline-block;margin-bottom:20px;transform:rotate(-2deg);}}
+
+  /* ---------- служебная записка / брифинг о проекте ---------- */
+  .brief-section{padding-top:60px;padding-bottom:0;}
+  .brief-panel{margin-top:0;}
+  .brief-panel .stamp{border-color:var(--violet);color:var(--violet);box-shadow:0 0 14px rgba(139,107,255,0.25);}
+  .brief-panel .kicker{color:var(--violet);}
+  .brief-panel .kicker .line{background:var(--violet);}
+  .brief-foot{margin-top:24px;font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--ink-dim);border-top:1px solid var(--hairline);padding-top:18px;}
+  .brief-foot b{color:var(--ink);}
+  @media (max-width:900px){.brief-section{padding-top:36px;}}
 
   /* ---------- mechanics feature already reuses feature-row ---------- */
 
@@ -802,6 +830,18 @@ body::before{
   </div>
 </div>
 
+<section id="брифинг" class="brief-section">
+  <div class="wrap">
+    <div class="verdict-panel brief-panel frame" style="--fc:var(--violet);"><i></i>
+      <div class="stamp">Задание<br>№5 / 5</div>
+      <div class="kicker"><span class="line"></span>Служебная записка &middot; Отдел обучения</div>
+      <h3>Это досье &mdash; ответ на тестовое задание.</h3>
+      <p>Я выбрал тему №5 и решил не делать слайды с буллитами, а собрать её как терминал архива Зоны &mdash; с загрузкой доступа, досье и вердиктом вместо выводов. Дальше по тексту &mdash; уже сама механика концовок, приятного чтения!</p>
+      <div class="brief-foot">Формат: <b>HTML-лендинг</b> &middot; Оценка: <s>субъективная</s> объективная &middot; Дело №0063</div>
+    </div>
+  </div>
+</section>
+
 <section id="досье">
   <div class="wrap">
     <div class="kicker"><span class="line"></span>Досье Зоны</div>
@@ -1077,6 +1117,26 @@ body::before{
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  const geigerSound = new Audio('audio/geiger.mp3');
+  geigerSound.loop = true;
+  geigerSound.volume = 0.55;
+
+  function fadeOutAudio(audio, duration){
+    const steps = 30;
+    const stepTime = duration / steps;
+    const volumeStep = audio.volume / steps;
+    const fade = setInterval(()=>{
+      if(audio.volume - volumeStep > 0.02){
+        audio.volume -= volumeStep;
+      } else {
+        audio.volume = 0;
+        audio.pause();
+        audio.currentTime = 0;
+        clearInterval(fade);
+      }
+    }, stepTime);
+  }
+
   const lines = [
     'ПОДКЛЮЧАЕМСЯ К СЕТИ ZONE.OS...',
     'СЧИТЫВАЕМ УРОВЕНЬ РАДИАЦИИ...',
@@ -1096,6 +1156,11 @@ body::before{
     setTimeout(() => flash.remove(), 60);
     initBtn.style.display = 'none';
     boot.classList.add('show');
+
+    geigerSound.currentTime = 0;
+    geigerSound.volume = 0.55;
+    geigerSound.play().catch(()=>{});
+
 
     let i = 0;
     const total = lines.length;
@@ -1141,6 +1206,8 @@ body::before{
     const site = document.getElementById('site');
     site.style.animation = 'crt-flicker 0.2s 3';
     setTimeout(()=>{ site.style.animation = ''; }, 620);
+
+    fadeOutAudio(geigerSound, 1500);
 
     // Гном-маскот проявляется на фоне вместе с открытием сайта
     (function(){
