@@ -40,7 +40,7 @@
 
     /* --- игровое поле: доска + подсказки (буквы вразброс) + клавиатура --- */
     + '.ht-game{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;}'
-    + '.ht-board-col{flex:1 1 360px;min-width:260px;}'
+    + '.ht-board-col{flex:1 1 360px;min-width:220px;}'
     + '.ht-hints-col{flex:0 0 210px;min-width:170px;border-left:1px dashed #1c3a24;padding-left:22px;}'
     + '.ht-keyboard-col{flex:1 1 100%;padding-top:6px;}'
     + '@media (max-width:820px){.ht-hints-col{border-left:none;border-top:1px dashed #1c3a24;padding-left:0;padding-top:16px;flex:1 1 100%;order:3;}.ht-board-col{order:1;}.ht-keyboard-col{order:2;}}'
@@ -102,7 +102,7 @@
     + '.ht-destruct .num.tick{animation:htNumPulse .5s ease;}'
     + '@keyframes htNumPulse{0%{transform:scale(1.5);opacity:0;}100%{transform:scale(1);opacity:1;}}'
 
-    + '@media (max-width:520px){.ht-krow{gap:3px;}.ht-key{padding:9px 0;font-size:10.5px;}.ht-key.wide{font-size:8.5px;}}';
+    + '@media (max-width:520px){.ht-overlay{padding:10px;}.ht-screen{padding:18px 14px 20px;}.ht-board{gap:5px;}.ht-row{gap:4px;}.ht-krow{gap:3px;}.ht-key{padding:9px 0;font-size:10.5px;}.ht-key.wide{font-size:8.5px;}}';
 
   var styleEl = document.createElement('style');
   styleEl.id = 'ht-styles';
